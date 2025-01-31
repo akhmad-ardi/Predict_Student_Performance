@@ -84,12 +84,12 @@ Mean Squared Error (MSE) merupakan Metrik evaluasi yang digunakan untuk mengukur
 
 **Report Mean Squared Error**
 -------------------------------------------
-![Pictures MSE 1](https://github.com/akhmad-ardi/Predict_Student_Performance/raw/main/Screenshot%20from%202025-01-31%2023-03-56.png)
+![Pictures MSE 1](images/Report_MSE.png)
 
 **Visualize report Mean Squared Error**
 -------------------------------------------
-![Pictures MSE 2](https://github.com/akhmad-ardi/Predict_Student_Performance/raw/main/Screenshot%20from%202025-01-31%2023-16-50.png)
+![Pictures MSE 2](images/Visualize_MSE.png)
 
 **Testing model with test data**
 -------------------------------------------
-![Pictures MSE 2](https://github.com/akhmad-ardi/Predict_Student_Performance/raw/main/Screenshot%20from%202025-01-31%2023-18-50.png)
+![Pictures MSE 2](images/Testing_model.png)
