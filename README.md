@@ -33,18 +33,87 @@ Sistem pendidikan modern menghadapi tantangan dalam mengidentifikasi siswa yang 
 
 ## Data Understanding
 
-**[Dataset Predict Student Performance](https://www.kaggle.com/datasets/stealthtechnologies/predict-student-performance-dataset)** yang digunakan dalam proyek ini adalah representasi buatan (sintetis) dari data performa siswa.  Tujuannya adalah untuk mensimulasikan kondisi-kondisi riil yang mempengaruhi prestasi siswa. Data ini mencakup berbagai faktor yang diduga berperan penting, antara lain:
+**[Dataset Predict Student Performance](https://www.kaggle.com/datasets/stealthtechnologies/predict-student-performance-dataset)** yang digunakan dalam proyek ini adalah representasi buatan (sintetis) dari data performa siswa.  Tujuannya adalah untuk mensimulasikan kondisi-kondisi riil yang mempengaruhi prestasi siswa. 
 
-- **Study Hours**: Pola dan durasi belajar siswa.
-- **Sleep Hours**: Kualitas dan kuantitas tidur siswa.
-- **Socioeconomic Score**: Kondisi ekonomi dan sosial keluarga siswa.
-- **Attendance(%)**: Tingkat kehadiran siswa dalam kegiatan pembelajaran.
-- **Grades (TARGET)**: Skor performa akhir siswa, diperoleh dari kombinasi study hours, sleep hours, soctoeconomic score, dan attendance.
+Data ini mencakup berbagai faktor yang diduga berperan penting, antara lain:
+
+1. **Study Hours**: Pola dan durasi belajar siswa.
+2. **Sleep Hours**: Kualitas dan kuantitas tidur siswa.
+3. **Socioeconomic Score**: Kondisi ekonomi dan sosial keluarga siswa.
+4. **Attendance(%)**: Tingkat kehadiran siswa dalam kegiatan pembelajaran.
+5. **Grades (TARGET)**: Skor performa akhir siswa, diperoleh dari kombinasi study hours, sleep hours, soctoeconomic score, dan attendance.
+
+- **Jumlah Data**:
+    - Jumlah row pada dataset sebanyak 1388 rows
+    - Jumlah kolom(variabel) pada dataset sebanyak 5 kolom
+    <br>
+
+    ![Total data](images/Total_data.png)
+
+- **Kondisi Data**:
+    - Semua tipe data pada variabel berupa numerik
+    <br>
+
+    ![Data types](images/Data_types.png)
+
+    - Tidak ada missing value
+    <br>
+
+    ![Missing value](images/Missing_value.png)
+
+    - Terdapat beberapa outlier pada variabel **Study Hours**, **Attendence(%)**, dan **Grades**:
+    <br>
+
+    ![Outliers](images/Outliers.png)
+
+    - Tidak terdapat duplikasi data
+    <br>
+
+    ![Data duplicates](images/Data_duplicates.png)
+
+
+- **Exploratory Data Analysis(EDA)**
+
+    - **Univariate Analysis**:
+        <br>
+        <br>
+        ![Univariate Analysis](images/Univariate_analysis.png)
+
+        - **Socioeconomic Score**: Sebagian besar siswa memiliki skor sosioekonomi yang terdistribusi merata di sekitar nilai tengah. Tidak ada kelompok yang sangat menonjol atau outlier yang signifikan.
+        - **Study Hours**: Sebagian besar siswa menghabiskan waktu belajar sekitar 4-6 jam. Ada beberapa siswa yang belajar jauh lebih banyak (outlier pada ujung kanan).
+        - **Sleep Hours**: Sebagian besar siswa tidur sekitar 7-8 jam. Distribusi cenderung normal.
+        - **Attandance(%)**: Sebagian besar siswa memiliki persentase kehadiran yang tinggi (di atas 70%). Ada beberapa siswa dengan persentase kehadiran yang rendah (outlier).
+        - **Grades**: Sebagian besar siswa memiliki nilai berkisar antara 50-70. Ada beberapa siswa dengan nilai yang sangat tinggi dan beberapa dengan nilai yang sangat rendah.
+
+    - **Multivariate Analysis**:
+<div style="display: flex; justify-content: space-between; gap: 10px;">
+  <img src="images/Mutlivariate_analysis_1.png" width="500" alt="Gambar pertama">
+  <img src="images/Mutlivariate_analysis_2.png" width="500" alt="Gambar kedua">
+</div>
+
+Dari visualisasi ini, kita dapat mengamati beberapa hal berikut:
+
+- Korelasi Positif:
+    - **Study Hours** dan **Grades**: Semakin banyak siswa belajar, cenderung semakin tinggi nilai yang diperoleh. Ini menunjukkan hubungan positif yang kuat.
+    - **Attendance(%)** dan **Grades**: Semakin tinggi persentase kehadiran, cenderung semakin tinggi nilai yang diperoleh. Ini juga menunjukkan hubungan positif yang kuat.
+- Korelasi Negatif:
+    - **Sleep Hours** dan **Grades**: Tampaknya tidak ada korelasi yang signifikan antara jam tidur dan nilai.
+
 
 ## Data Preparation
 
+- **Delete Outliers**:
+    Mengoptimalkan dataset dengan menghapus data ekstrem yang tidak konsisten dengan distribusi data mayoritas.
+
+- **Remove Unnecessary Variables**:
+    Menghapus variabel Sleep Hours karena memiliki korelasi yang sangat lemah dengan Grades.
+    <br>
+
+    ![Remove Unnecessry Variables](images/Remove_unnecessary_variables.png)
+
 - **Train-Test-Split**
     Membagi dataset menjadi data latih (train) 90% dan data uji (test) 10% dengan menggunakan fungsi train_test_split dari scikit-learn.
+
 - **Standarization**
     Melakukan standarisasi pada data latih (train) menggunakan kelas StandardScaler agar bisa diimplementasikan pada algoritma machine learning yang akan digunakan.
 
