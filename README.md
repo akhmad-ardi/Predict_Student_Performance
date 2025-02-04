@@ -86,10 +86,12 @@ Data ini mencakup berbagai faktor yang diduga berperan penting, antara lain:
         - **Grades**: Sebagian besar siswa memiliki nilai berkisar antara 50-70. Ada beberapa siswa dengan nilai yang sangat tinggi dan beberapa dengan nilai yang sangat rendah.
 
     - **Multivariate Analysis**:
-<div style="display: flex; justify-content: space-between; gap: 10px;">
-  <img src="images/Mutlivariate_analysis_1.png" width="500" alt="Gambar pertama">
-  <img src="images/Mutlivariate_analysis_2.png" width="500" alt="Gambar kedua">
+<div style="display: flex; gap: 10px;">
+  <img src="images/Mutlivariate_analysis_1.png" width="380" alt="Gambar pertama">
+  <img src="images/Mutlivariate_analysis_2.png" width="380" alt="Gambar kedua">
 </div>
+
+<br>
 
 Dari visualisasi ini, kita dapat mengamati beberapa hal berikut:
 
@@ -126,30 +128,61 @@ Model baseline yang digunakan untuk memahami hubungan linear antara fitur (varia
 - ***Kelebihan***: Sederhana, mudah diinterpretasikan, komputasi efisien.
 - ***Kekurangan***: Hanya efektif jika hubungan antar variabel linear, kurang akurat jika terdapat hubungan non-linear.
 
+- **Tahapan Pemodelan**:
+    - Mengimpor Kelas ```LinearRegression``` dari scikit-learn.
+    - Buat instansiasi object dari class ```LinearRegression``` dan menyimpannya dalam variabel ```LR```.
+    - Latih model dengan method ```fit``` pada objek ```LR``` dengan paramter pertama ```X_train```(Fitur dari data latih) dan parameter kedua ```y_train```(Target dari data latih)
+
+![Model LR](images/Model_LR.png)
+
 2. **K-Nearest Neighbors (KNN)**:
 Memprediksi nilai siswa berdasarkan nilai k tetangga terdekat dalam ruang fitur.
 - ***Kelebihan***: Sederhana, mudah diimplementasikan, tidak ada asumsi tentang bentuk hubungan antar variabel.
 - ***Kekurangan***: Perlu menentukan nilai k yang optimal, komputasi mahal untuk data yang besar.
+
+- **Tahapan Pemodelan**:
+    - Mengimpor Kelas ```KNeighborsRegressor``` dari scikit-learn.
+    - Buat instansiasi object dari class ```KNeighborsRegressor``` dan menyimpannya dalam variabel ```knn```. Lalu atur parameter ```n_neighbors``` menjadi 10 untuk menentukan jumlah tetangga terdekat yang akan digunakan membuat predikisi.
+    - Latih model dengan method ```fit``` pada objek ```knn``` dengan paramter pertama ```X_train```(Fitur dari data latih) dan parameter kedua ```y_train```(Target dari data latih)
+
+![Model KNN](images/Model_KNN.png)
 
 3. **Random Forest**:
 Membangun banyak pohon keputusan dan menggabungkan prediksinya.
 - ***Kelebihan***: Akurat, robust terhadap outlier, dapat menangani hubungan non-linear.
 - ***Kekurangan***: Lebih kompleks dari model linear, membutuhkan lebih banyak sumber daya komputasi.
 
+- **Tahapan Pemodelan**
+    - Mengimpor Kelas ```RandomForestRegressor``` dari scikit-learn.
+    - Buat instansiasi object dari class ```RandomForestRegressor``` dan menyimpannya dalam variabel ```RF```. Lalu atur beberapa parameter:
+        - ```n_estimators=100```: Jumlah pohon keputusan dalam hutan. Semakin banyak pohon, semakin akurat modelnya, tetapi juga semakin lama waktu pelatihannya.
+        - ```max_depth=32```: Kedalaman maksimum setiap pohon keputusan. Parameter ini membantu mencegah overfitting.
+        - ```random_state=110```: Nilai acak untuk inisialisasi. Ini memastikan bahwa setiap kali kode dijalankan, hasil yang sama akan diperoleh.
+        - ```n_jobs=-1```: Menggunakan semua core prosesor yang tersedia untuk mempercepat pelatihan.
+    - Latih model dengan method ```fit``` pada objek ```RF``` dengan paramter pertama ```X_train```(Fitur dari data latih) dan parameter kedua ```y_train```(Target dari data latih)
+
+![Model RF](images/Model_RF.png)
+
 4. **AdaBoost Regressor**:
 Meningkatkan akurasi prediksi dengan memberikan bobot yang lebih besar pada data yang sulit diprediksi.
 - ***Kelebihan***: Meningkatkan akurasi model weak learners, adaptif terhadap data.
 - ***Kekurangan***: Rentan terhadap overfitting jika terlalu kompleks.
 
+- **Tahapan Pemodelan**
+    - Mengimpor Kelas ```AdaBoostRegressor``` dari scikit-learn.
+    - Buat instansiasi object dari class ```AdaBoostRegressor``` dan menyimpannya dalam variabel ```boosting```. Lalu atur beberapa parameter:
+        - ```learning_rate=0.05```: Parameter ini mengontrol kontribusi setiap pohon keputusan dalam model akhir. Nilai yang lebih kecil akan membuat model lebih konservatif.
+        - ```random_state=55```: Nilai acak untuk inisialisasi. Ini memastikan bahwa setiap kali kode dijalankan, hasil yang sama akan diperoleh.
+    - Latih model dengan method ```fit``` pada objek ```boosting``` dengan paramter pertama ```X_train```(Fitur dari data latih) dan parameter kedua ```y_train```(Target dari data latih)
+
+![Model Boosting](images/Model_Boosting.png)
+
 Dari algoritma machine learning yang sudah diimplementasikan, Random Forest merupakan algoritma yang bagus karena memiliki nilai error terendah berdasarkan Mean Squared Error.
 
-## Evaluation
-Mean Squared Error (MSE) merupakan Metrik evaluasi yang digunakan untuk mengukur kinerja model prediksi performa 
+![Pictures MSE 1](images/Report_MSE.png)
 
-- LR: Linear Regression
-- KNN: K-Nearest Neighbors
-- RF: Random Forest
-- Boosting: AdaBoost Regressor
+## Evaluation
+Untuk mengevaluasi performa masing-masing model menggunakan metrik Mean Squared Error (MSE). MSE mengukur rata-rata kuadrat selisih antara nilai prediksi dan nilai aktual. Nilai MSE yang lebih kecil menunjukkan model yang lebih akurat.
 
 **Report Mean Squared Error**
 -------------------------------------------
@@ -159,6 +192,12 @@ Mean Squared Error (MSE) merupakan Metrik evaluasi yang digunakan untuk mengukur
 -------------------------------------------
 ![Pictures MSE 2](images/Visualize_MSE.png)
 
-**Testing model with test data**
+- **Random Forest** memiliki kinerja terbaik dengan nilai MSE terendah. Hal ini menunjukkan bahwa model Random Forest mampu menangkap pola yang kompleks dalam data dengan lebih baik dibandingkan model lainnya.
+- **K-Nearest Neighbors** memiliki kinerja yang cukup baik, namun masih kalah dibandingkan dengan Random Forest. Kemungkinan hal ini disebabkan oleh sensitivitas KNN terhadap pemilihan nilai k dan adanya noise dalam data.
+- **Linear Regression** dan **AdaBoostRegressor** memiliki nilai MSE yang lebih tinggi, menunjukkan bahwa model-model ini kurang cocok untuk dataset ini.
+
+Berdasarkan hasil evaluasi, model Random Forest merupakan model yang paling cocok untuk memprediksi target(Grades) pada dataset ini.
+
+<!-- **Testing model with test data**
 -------------------------------------------
-![Pictures MSE 2](images/Testing_model.png)
+![Pictures MSE 2](images/Testing_model.png) -->
