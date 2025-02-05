@@ -29,7 +29,7 @@ Sistem pendidikan modern menghadapi tantangan dalam mengidentifikasi siswa yang 
 2. Mengembangkan model baseline dengan algoritma Random Forest. Algoritma ini akan menggabungkan kekuatan beberapa pohon keputusan untuk meningkatkan akurasi prediksi dan mengurangi risiko overfitting.
 3. Mengembangkan model K-Nearest Neighbors (KNN) untuk memprediksi performa siswa berdasarkan kedekatan fitur dengan data tetangga terdekat.
 4. Mengembangkan model AdaBoost Regressor untuk meningkatkan akurasi prediksi dengan memberikan bobot yang lebih besar pada data yang sulit diprediksi.
-5. Setiap solusi di atas akan dievaluasi menggunakan metrik evaluasi yang sesuai, seperti Mean Squared Error (MSE). Metrik ini akan membantu mengukur kinerja setiap model dan membandingkannya satu sama lain.
+5. Setiap solusi di atas akan dievaluasi menggunakan metrik evaluasi yang sesuai, seperti Mean Squared Error (MSE) dan R-Squared. Metrik ini akan membantu mengukur kinerja setiap model dan membandingkannya satu sama lain.
 
 ## Data Understanding
 
@@ -180,7 +180,7 @@ Meningkatkan akurasi prediksi dengan memberikan bobot yang lebih besar pada data
 Dari algoritma machine learning yang sudah diimplementasikan, Random Forest merupakan algoritma yang bagus karena memiliki nilai error terendah berdasarkan Mean Squared Error dan memiliki akurasi sangat tinggi berdasarkan R-squared.
 
 ## Evaluation
-Untuk mengevaluasi performa masing-masing model menggunakan metrik Mean Squared Error (MSE). MSE mengukur rata-rata kuadrat selisih antara nilai prediksi dan nilai aktual. Nilai MSE yang lebih kecil menunjukkan model yang lebih akurat.
+Untuk mengevaluasi performa masing-masing model menggunakan metrik Mean Squared Error (MSE) dan R-Squared. MSE mengukur rata-rata kuadrat selisih antara nilai prediksi dan nilai aktual. Nilai MSE yang lebih kecil menunjukkan model yang lebih akurat. Sedangkan R-Squared mengukur seberapa baik model regresi dapat menjelaskan variabilitas dalam data. Nilai R2 yang lebih besar menunjukkan model yang lebih akurat.
 
 **Report R-Squared**
 
