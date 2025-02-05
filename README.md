@@ -1,4 +1,4 @@
-# Laporan Proyek Memprediksi Performa Siswa - Akhmad Ardiansyah Amnur
+# Laporan Proyek Prediksi Performa Siswa - Akhmad Ardiansyah Amnur
 
 ## Domain Proyek
 
@@ -152,7 +152,7 @@ Membangun banyak pohon keputusan dan menggabungkan prediksinya.
 - ***Kelebihan***: Akurat, robust terhadap outlier, dapat menangani hubungan non-linear.
 - ***Kekurangan***: Lebih kompleks dari model linear, membutuhkan lebih banyak sumber daya komputasi.
 
-- **Tahapan Pemodelan**
+- **Tahapan Pemodelan**:
     - Mengimpor Kelas ```RandomForestRegressor``` dari scikit-learn.
     - Buat instansiasi object dari class ```RandomForestRegressor``` dan menyimpannya dalam variabel ```RF```. Lalu atur beberapa parameter:
         - ```n_estimators=100```: Jumlah pohon keputusan dalam hutan. Semakin banyak pohon, semakin akurat modelnya, tetapi juga semakin lama waktu pelatihannya.
@@ -168,7 +168,7 @@ Meningkatkan akurasi prediksi dengan memberikan bobot yang lebih besar pada data
 - ***Kelebihan***: Meningkatkan akurasi model weak learners, adaptif terhadap data.
 - ***Kekurangan***: Rentan terhadap overfitting jika terlalu kompleks.
 
-- **Tahapan Pemodelan**
+- **Tahapan Pemodelan**:
     - Mengimpor Kelas ```AdaBoostRegressor``` dari scikit-learn.
     - Buat instansiasi object dari class ```AdaBoostRegressor``` dan menyimpannya dalam variabel ```boosting```. Lalu atur beberapa parameter:
         - ```learning_rate=0.05```: Parameter ini mengontrol kontribusi setiap pohon keputusan dalam model akhir. Nilai yang lebih kecil akan membuat model lebih konservatif.
@@ -177,19 +177,22 @@ Meningkatkan akurasi prediksi dengan memberikan bobot yang lebih besar pada data
 
 ![Model Boosting](images/Model_Boosting.png)
 
-Dari algoritma machine learning yang sudah diimplementasikan, Random Forest merupakan algoritma yang bagus karena memiliki nilai error terendah berdasarkan Mean Squared Error.
-
-![Pictures MSE 1](images/Report_MSE.png)
+Dari algoritma machine learning yang sudah diimplementasikan, Random Forest merupakan algoritma yang bagus karena memiliki nilai error terendah berdasarkan Mean Squared Error dan memiliki akurasi sangat tinggi berdasarkan R-squared.
 
 ## Evaluation
 Untuk mengevaluasi performa masing-masing model menggunakan metrik Mean Squared Error (MSE). MSE mengukur rata-rata kuadrat selisih antara nilai prediksi dan nilai aktual. Nilai MSE yang lebih kecil menunjukkan model yang lebih akurat.
 
+**Report R-Squared**
+
+![Pictures MSE 1](images/Report_R2.png)
+
 **Report Mean Squared Error**
--------------------------------------------
+
 ![Pictures MSE 1](images/Report_MSE.png)
 
+
 **Visualize report Mean Squared Error**
--------------------------------------------
+
 ![Pictures MSE 2](images/Visualize_MSE.png)
 
 - **Random Forest** memiliki kinerja terbaik dengan nilai MSE terendah. Hal ini menunjukkan bahwa model Random Forest mampu menangkap pola yang kompleks dalam data dengan lebih baik dibandingkan model lainnya.
@@ -198,6 +201,24 @@ Untuk mengevaluasi performa masing-masing model menggunakan metrik Mean Squared 
 
 Berdasarkan hasil evaluasi, model Random Forest merupakan model yang paling cocok untuk memprediksi target(Grades) pada dataset ini.
 
-<!-- **Testing model with test data**
--------------------------------------------
-![Pictures MSE 2](images/Testing_model.png) -->
+Model Prediksi Performa Siswa yang telah saya kembangkan tidak hanya berfungsi sebagai alat prediksi semata, namun juga sebagai solusi komprehensif untuk menjawab tantangan-tantangan krusial dalam dunia pendidikan. Berikut adalah penjelasan bagaimana model ini menjawab masing-masing problem statements:
+
+1. **Peningkatan Kualitas Pembelajaran** <br>
+Model ini memungkinkan identifikasi faktor-faktor kunci yang mempengaruhi performa siswa secara individual. Dengan menganalisis data seperti kehadiran, waktu belajar, dan bahkan latar belakang sosio-ekonomi, kita dapat memahami secara mendalam apa yang menjadi kekuatan dan kelemahan masing-masing siswa. Informasi ini sangat berharga bagi para guru dan pengajar. Mereka dapat menyesuaikan metode pengajaran, memberikan dukungan tambahan yang tepat sasaran, dan merancang program pembelajaran yang lebih personal dan efektif. Dengan demikian, kualitas pembelajaran secara keseluruhan dapat ditingkatkan secara signifikan.
+
+2. **Optimalisasi Alokasi Sumber Daya Pendidikan** <br>
+Keterbatasan sumber daya pendidikan adalah tantangan yang umum dihadapi. Model ini membantu mengoptimalkan alokasi sumber daya yang ada dengan memberikan informasi yang akurat mengenai kebutuhan siswa. Misalnya, siswa yang teridentifikasi berisiko mengalami kesulitan belajar dapat diberikan prioritas untuk mendapatkan bimbingan tambahan, akses ke materi pembelajaran khusus, atau bahkan dukungan psikologis. Dengan alokasi sumber daya yang tepat sasaran, setiap siswa memiliki kesempatan yang sama untuk berprestasi, tanpa memandang latar belakang mereka.
+
+3. **Identifikasi Siswa Berisiko Kesulitan Belajar Sejak Dini** <br>
+Salah satu keunggulan utama model ini adalah kemampuannya untuk mengidentifikasi siswa yang berpotensi mengalami kesulitan belajar sejak dini. Dengan menggunakan data historis dan pola-pola tertentu, model ini dapat memberikan peringatan lebih awal sebelum masalah menjadi lebih besar. Identifikasi dini ini sangat penting karena memungkinkan intervensi yang lebih cepat dan efektif. Guru, orang tua, dan pihak sekolah dapat bekerja sama untuk memberikan dukungan tambahan, seperti bimbingan belajar, pendampingan, atau bahkan asesmen psikologis jika diperlukan. Dengan demikian, kita dapat mencegah siswa mengalami kesulitan belajar yang berkepanjangan dan membantu mereka mencapai potensi penuh mereka.
+
+Pengembangan Model Prediksi Performa Siswa yang telah dilakukan membuahkan hasil dan sukses besar dalam mencapai goals yang telah ditetapkan. Berikut adalah bagaimana model ini berhasil mewujudkan masing-masing goals:
+
+1. **Pengembangan Model Prediksi yang Akurat** <br>
+Mengembangkan model prediksi yang akurat untuk memahami faktor-faktor yang mempengaruhi performa siswa. Melalui pengumpulan dan analisis data yang cermat, termasuk waktu belajar, kehadiran, serta faktor-faktor sosio-ekonomi, model ini telah berhasil dibangun dengan tingkat akurasi yang cukup bagus. Model ini tidak hanya mampu memprediksi performa siswa di masa depan, tetapi juga memberikan wawasan berharga mengenai faktor-faktor kunci yang berkontribusi terhadap kesuksesan siswa. Dengan pemahaman ini, institusi pendidikan sekarang memiliki dasar yang kuat untuk menyesuaikan strategi pembelajaran menjadi lebih efektif dan personal.
+
+2. **Alokasi Sumber Daya Pendidikan yang Efisien** <br>
+Salah satu tantangan utama dalam dunia pendidikan adalah memastikan alokasi sumber daya yang efisien. Model prediksi ini telah memberikan solusi yang inovatif untuk masalah ini. Dengan mengidentifikasi siswa yang membutuhkan dukungan lebih awal, institusi pendidikan dapat mengalokasikan sumber daya seperti guru tambahan, program bimbingan belajar, atau materi pembelajaran khusus secara lebih tepat sasaran. Hal ini memastikan bahwa sumber daya yang terbatas dapat digunakan secara optimal untuk memberikan manfaat maksimal bagi siswa yang paling membutuhkan.
+
+3. **Sistem Identifikasi Dini Berbasis Data** <br>
+Membangun sistem identifikasi dini berbasis data untuk siswa yang berpotensi mengalami kesulitan belajar. Model ini telah berhasil mewujudkan tujuan ini dengan mengintegrasikan data historis dan pola-pola tertentu untuk mengidentifikasi siswa yang berisiko sejak dini. Sistem ini memberikan peringatan dini kepada guru, orang tua, dan pihak sekolah, memungkinkan intervensi preventif yang lebih awal. Dengan demikian, siswa yang berpotensi mengalami kesulitan belajar dapat diberikan dukungan tambahan yang tepat waktu, membantu mereka tantangan dan mencapai potensi penuh mereka.

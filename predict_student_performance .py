@@ -17,7 +17,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 # %matplotlib inline
 import seaborn as sns
-from sklearn.metrics import mean_squared_error
+from sklearn.metrics import mean_squared_error, r2_score
 
 import kagglehub
 
@@ -49,9 +49,11 @@ df.info()
 - Sleep Hours: Numerik kontinu (dalam jam).
 - Attendance (%): Numerik kontinu (persentase kehadiran).
 - Grades: Numerik kontinu (nilai akhir).
-
-### Distribusi Variabel
 """
+
+df.dtypes
+
+"""### Distribusi Variabel"""
 
 df.describe()
 
@@ -94,44 +96,54 @@ for i, col in enumerate(df.columns):
 plt.tight_layout()
 plt.show()
 
-Q1 = df.quantile(0.25)
-Q3 = df.quantile(0.75)
-IQR=Q3-Q1
-cleaned_df=df[~((df<(Q1-1.5*IQR))|(df>(Q3+1.5*IQR))).any(axis=1)]
-
-# Cek ukuran dataset setelah kita drop outliers
-cleaned_df.shape
-
 """Setelah menghapus outliers, ukuran dataset 1342 rows
 
-### Univariate Analysis
+### Duplicates
 """
 
-cleaned_df.hist(bins=50, figsize=(20,15))
+duplicates = df[df.duplicated()]
+print(f"Duplicate Rows: {duplicates}")
+
+"""### Univariate Analysis"""
+
+df.hist(bins=50, figsize=(20,15))
 
 plt.show()
 
 """### Multivariate Analysis"""
 
-sns.pairplot(cleaned_df, diag_kind = 'kde')
+sns.pairplot(df, diag_kind = 'kde')
 
 plt.figure(figsize=(10, 8))
-correlation_matrix = cleaned_df.corr().round(2)
+correlation_matrix = df.corr().round(2)
 
 # Untuk print nilai di dalam kotak, gunakan parameter anot=True
 sns.heatmap(data=correlation_matrix, annot=True, cmap='coolwarm', linewidths=0.5, )
 plt.title("Correlation Matrix untuk Fitur Numerik ", size=20)
 
-"""Sleep Hours memiliki korelasi yang sangat lemah (-0.08) dengan Grades. Jadi Variabel Sleep Hours tidak dibutuhkan."""
-
-cleaned_df.drop(['Sleep Hours'], inplace=True, axis=1)
-
-cleaned_df.head()
-
 """## Data Preparation
 
-### Split dataset
+### Delete outliers
 """
+
+Q1 = df.quantile(0.25)
+Q3 = df.quantile(0.75)
+IQR=Q3-Q1
+cleaned_df=df[~((df<(Q1-1.5*IQR))|(df>(Q3+1.5*IQR))).any(axis=1)]
+
+# Cek ukuran dataset setelah drop outliers
+cleaned_df.shape
+
+"""### Remove unnecessary variables
+
+Sleep Hours memiliki korelasi yang sangat lemah (-0.08) dengan Grades. Jadi Variabel Sleep Hours tidak dibutuhkan.
+"""
+
+df.drop(['Sleep Hours'], inplace=True, axis=1)
+
+df.head()
+
+"""### Split dataset"""
 
 from sklearn.model_selection import train_test_split
 
@@ -155,20 +167,15 @@ X_train[features].head()
 
 X_train[features].describe().round(4)
 
-"""## Model"""
+"""## Model
 
-# Siapkan dataframe untuk analisis model
-models = pd.DataFrame(index=['train_mse', 'test_mse'],
-                      columns=['Linear Regression', 'KNN', 'RandomForest', 'Boosting'])
-
-"""### Linear Regression"""
+### Linear Regression
+"""
 
 from sklearn.linear_model import LinearRegression
 
 LR = LinearRegression()
 LR.fit(X_train, y_train)
-
-models.loc['train_mse','LinearRegression'] = mean_squared_error(y_pred = LR.predict(X_train), y_true=y_train)
 
 """### KNN"""
 
@@ -177,18 +184,12 @@ from sklearn.neighbors import KNeighborsRegressor
 knn = KNeighborsRegressor(n_neighbors=10)
 knn.fit(X_train, y_train)
 
-models.loc['train_mse','knn'] = mean_squared_error(y_pred = knn.predict(X_train), y_true=y_train)
-
 """### Random Forest"""
 
-# Impor library yang dibutuhkan
 from sklearn.ensemble import RandomForestRegressor
 
-# buat model prediksi
 RF = RandomForestRegressor(n_estimators=100, max_depth=32, random_state=110, n_jobs=-1)
 RF.fit(X_train, y_train)
-
-models.loc['train_mse','RandomForest'] = mean_squared_error(y_pred=RF.predict(X_train), y_true=y_train)
 
 """### Boosting Algorithm"""
 
@@ -197,8 +198,6 @@ from sklearn.ensemble import AdaBoostRegressor
 boosting = AdaBoostRegressor(learning_rate=0.05, random_state=55)
 boosting.fit(X_train, y_train)
 
-models.loc['train_mse','Boosting'] = mean_squared_error(y_pred=boosting.predict(X_train), y_true=y_train)
-
 """## Evaluasi Model"""
 
 # Lakukan scaling terhadap fitur numerik pada X_test sehingga memiliki rata-rata=0 dan varians=1
@@ -206,17 +205,31 @@ X_test.loc[:, features] = scaler.transform(X_test[features])
 
 # Variabel mse yang isinya adalah dataframe nilai mse data train dan test pada masing-masing algoritma
 mse = pd.DataFrame(columns=['train', 'test'], index=['LR', 'KNN','RF','Boosting'])
+r2 = pd.DataFrame(columns=['train', 'test'], index=['LR', 'KNN', 'RF', 'Boosting'])
 
 # Dictionary untuk setiap algoritma yang digunakan
 model_dict = {'LR': LR, 'KNN': knn, 'RF': RF, 'Boosting': boosting}
 
 # Mean Squared Error masing-masing algoritma pada data train dan test
 for name, model in model_dict.items():
-    mse.loc[name, 'train'] = mean_squared_error(y_true=y_train, y_pred=model.predict(X_train))/1e3
-    mse.loc[name, 'test'] = mean_squared_error(y_true=y_test, y_pred=model.predict(X_test))/1e3
+    predict_train=model.predict(X_train)
+    predict_test=model.predict(X_test)
 
-# Panggil mse
+    mse_train = mean_squared_error(y_true=y_train, y_pred=predict_train)/1e3
+    mse_test = mean_squared_error(y_true=y_test, y_pred=predict_test)/1e3
+
+    mse.loc[name, 'train'] = f"{mse_train * 100:.2f}%"
+    mse.loc[name, 'test'] = f"{mse_test * 100:.2f}%"
+
+    r2_train = r2_score(y_true=y_train, y_pred=predict_train)
+    r2_test = r2_score(y_true=y_test, y_pred=predict_test)
+
+    r2.loc[name, 'train'] = f"{r2_train * 100:.2f}%"
+    r2.loc[name, 'test'] = f"{r2_test * 100:.2f}%"
+
 mse
+
+r2
 
 fig, ax = plt.subplots()
 mse.sort_values(by='test', ascending=False).plot(kind='barh', ax=ax, zorder=3)
